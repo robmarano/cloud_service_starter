@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "djava.fullname" . }}
+spec:
+  serviceName: {{ include "djava.fullname" . }}-headless
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "djava.fullname" . }}
+  # updateStrategy:
+  #   type: RollingUpdate
+  # podManagementPolicy: OrderedReady
+  template:
+    metadata:
+      labels:
+        app: {{ include "djava.fullname" . }}
+    spec:
+      containers:
+        - name: kubernetes-djava
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          # resources:
+          #   requests:
+          #     memory: "500Mi"
+          #     cpu: "0.25"
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: djava
+          volumeMounts:
+            - name: data-volume
+              mountPath: /app
+            - name: config
+              mountPath: /my-config
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "djava.fullname" . }}-configmap
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: {{ include "djava.fullname" . }}-pvc

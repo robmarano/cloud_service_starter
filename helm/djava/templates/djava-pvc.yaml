@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "djava.fullname" . }}-pvc
+spec:
+  accessModes:
+    - {{ .Values.storage.accessModes }}
+  resources:
+    requests:
+      storage: {{ .Values.storage.size }}

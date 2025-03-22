@@ -1,0 +1,15 @@
+replicaCount: 3
+image:
+  repository: djava
+  tag: v1
+  pullPolicy: IfNotPresent
+storage:
+  location: /app
+  size: 100Mi
+  accessModes: ReadWriteOnce
+service:
+  type: LoadBalancer
+  port: 3000
+  targetPort: 3000
+  nodePort: 32222
+  protocol: TCP

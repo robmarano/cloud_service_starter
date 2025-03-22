@@ -1,0 +1,11 @@
+spring.profiles.active=development
+spring.devtools.add-properties=true
+logging.level.web=INFO
+logging.level.org.thymeleaf=INFO
+logging.level.edu.cooper.ai=DEBUG
+logging.level.root=WARN
+spring.devtools.restart.enabled=true
+server.port=3000
+management.server.port=3100
+server.error.whitelabel.enabled=false
+storage.location=upload-dir
